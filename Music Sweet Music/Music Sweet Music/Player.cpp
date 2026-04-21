@@ -5,7 +5,6 @@ Player::Player(float width, float height, float x, float y)
     rectangle = sf::RectangleShape({ 100.f, 100.f });
     texture = sf::Texture("asset/Player.png");
     rectangle.setTexture(&texture);
-
     setPosition(x, y);
 }
 
@@ -16,6 +15,8 @@ void Player::setTextureRect(float x, float y)
 
 void Player::setPosition(float x, float y)
 {
+    this->x = x;
+    this->y = y;
     rectangle.setPosition({ x, y });
 }
 
