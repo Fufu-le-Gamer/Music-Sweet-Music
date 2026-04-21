@@ -26,33 +26,51 @@ void PlayerMove::update(Player& p, const std::vector<sf::RectangleShape>& platfo
         sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Z);
 
     velocity.x = 0.f;
-    if (pressingLeft)  velocity.x = -speed;
-    if (pressingRight) velocity.x = speed;
+
+    // Gestion des directions et des animations
+    if (pressingLeft) {
+        velocity.x = -speed;
+        p.setDirection(39); // Met la ligne 2 (exemple pour marche à gauche)
+    }
+    else if (pressingRight) {
+        velocity.x = speed;
+        p.setDirection(41); // Met la ligne 1 (exemple pour marche à droite)
+    }
+    else {
+        p.setDirection(25); // Met la ligne 0 (repos / idle)
+    }
 
     if (pressingJump && onGround)
     {
         velocity.y = jumpForce;
         onGround = false;
+        p.setDirection(29);
     }
 
+    // --- Mouvement horizontal ---
     p.rectangle.move({ velocity.x * dt, 0.f });
 
+    // --- Mouvement vertical ---
     velocity.y += gravity * dt;
+    // Cap de vitesse pour éviter de traverser le sol
+    if (velocity.y > fallSpeed) velocity.y = fallSpeed;
+
     p.rectangle.move({ 0.f, velocity.y * dt });
 
     onGround = false;
 
+    // --- Collisions ---
     for (const auto& plat : platforms)
     {
         auto inter = p.rectangle.getGlobalBounds().findIntersection(plat.getGlobalBounds());
         if (inter)
         {
-            if (velocity.y > 0.f)
+            if (velocity.y > 0.f) // Tombe
             {
                 p.rectangle.move({ 0.f, -inter->size.y });
                 onGround = true;
             }
-            else if (velocity.y < 0.f)
+            else if (velocity.y < 0.f) // Cogne la tête
             {
                 p.rectangle.move({ 0.f, inter->size.y });
             }

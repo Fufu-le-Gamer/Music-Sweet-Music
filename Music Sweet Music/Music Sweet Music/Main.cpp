@@ -10,7 +10,7 @@
 
 int main()
 {
-	Player player(100.f, 100.f, 200.f, 200.f);
+    Player player(100.f, 100.f, 200.f, 200.f);
 	PlayerMove movement;
 	LevelManager levelManager;
 	levelManager.loadBiome("Game.txt");
@@ -38,19 +38,21 @@ int main()
         }
 
         float dt = clock.restart().asSeconds();
+
+		player.updateAnimation(dt);
         movement.update(player, platforms, dt);
 
         camera.update(player.getPosX(), player.getPosY());
 
         window.clear();
-        window.setView(camera.getView());
 
+        window.setView(window.getDefaultView());
         parallax.update({ player.getPosX(), player.getPosY() });
         parallax.draw(window);
 
-        for (const auto& plat : platforms)
-            window.draw(plat);
-
+        window.setView(camera.getView());
+        for (const auto& plat : levelManager.getPlatforms())
+            window.draw(plat.getShape());
         player.draw(window);
 
         window.display();

@@ -1,4 +1,5 @@
-﻿  Platforms.cpp
-C:\Users\yducrocq\Documents\GitHub\Music-Sweet-Music\Music Sweet Music\Music Sweet Music\Platforms.cpp(7,47): warning C4244: 'argument' : conversion de 'double' en 'uint8_t', perte possible de données
-C:\Users\yducrocq\Documents\GitHub\Music-Sweet-Music\Music Sweet Music\Music Sweet Music\Platforms.cpp(8,49): warning C4244: 'argument' : conversion de 'double' en 'uint8_t', perte possible de données
+﻿  Main.cpp
+  Player.cpp
+  PlayerMove.cpp
+  Génération de code en cours...
   Music Sweet Music.vcxproj -> C:\Users\yducrocq\Documents\GitHub\Music-Sweet-Music\Music Sweet Music\x64\Debug\Music Sweet Music.exe

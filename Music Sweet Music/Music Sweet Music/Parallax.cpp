@@ -35,26 +35,23 @@ void Parallax::update(const sf::Vector2f& referencePos)
 
     for (auto& layer : m_layers)
     {
-        layer.rect.setTexture(&layer.texture);
-
-        sf::Vector2u texSize = layer.texture.getSize();
-        if (texSize.x == 0 || texSize.y == 0)
-            continue;
+        if(layer.texture.getSize().x <= 0)
+			continue;
 
         float offsetX = referencePos.x * layer.factor;
-        float offsetY = referencePos.y * layer.factor;
+        float offsetY = referencePos.y * (layer.factor * 0.1f);
 
-        float viewWidth = m_windowSize.x * layer.scale;
-        float viewHeight = m_windowSize.y * layer.scale;
+		layer.rect.setSize(m_windowSize);
+        layer.rect.setPosition({ layer.baseX, layer.baseY });
 
-        layer.rect.setSize(sf::Vector2f(m_windowSize.x, m_windowSize.y));
-        layer.rect.setPosition(sf::Vector2f(layer.baseX, layer.baseY));
-        layer.rect.setTextureRect(sf::IntRect(
-            sf::Vector2i(static_cast<int>(-offsetX), static_cast<int>(offsetY)),
-            sf::Vector2i(static_cast<int>(viewWidth), static_cast<int>(viewHeight))));
+        sf::Vector2i textureOffset{ static_cast<int>(offsetX), static_cast<int>(offsetY) };
+        sf::Vector2i textureSize{
+            static_cast<int>(m_windowSize.x / layer.scale),
+            static_cast<int>(m_windowSize.y / layer.scale)
+        };
+        layer.rect.setTextureRect(sf::IntRect(textureOffset, textureSize));
     }
 }
-
 void Parallax::draw(sf::RenderWindow& window) const
 {
     for (const auto& layer : m_layers)

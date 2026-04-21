@@ -15,6 +15,7 @@ void LevelManager::loadBiome(const std::string& filename)
 
     std::string line;
     bool inPlatformsSection = false;
+	const float verticalOffset = 500.f; // Adjust this value as needed
 
     while (std::getline(file, line)) {
         if (line.empty() || line[0] == '#')
@@ -29,7 +30,10 @@ void LevelManager::loadBiome(const std::string& filename)
             std::istringstream iss(line);
             float x, y, width, height;
             if (iss >> x >> y >> width >> height) {
-                m_platforms.emplace_back(sf::Vector2f(width, height), sf::Vector2f(x, y));
+                sf::Vector2f size(width, height);
+                sf::Vector2f position(x, y + verticalOffset);
+
+                m_platforms.emplace_back(size, position);
             }
         }
     }
