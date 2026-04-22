@@ -1,4 +1,4 @@
-#include "Scene.h"
+#include "scene.h"
 
 scene::scene(sf::RenderWindow* _render, float _WindowHeight, int _WindowWidth) {
 

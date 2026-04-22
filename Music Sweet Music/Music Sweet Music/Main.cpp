@@ -7,10 +7,21 @@
 #include "LevelManager.h"
 #include "Camera.h"
 #include "Parallax.h"
+#include "Scene.h"
+#include "Play.h"
+#include "Background.h"
+#include "Goal.h"
+#include "Ennemi.h"
 
 int main()
 {
-    Player player(100.f, 100.f, 200.f, 26000.f);
+    sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "Music Sweet Music");
+	window.setFramerateLimit(60);
+	sf::Clock clock;
+
+    Player player(100.f, 100.f, 200.f, 27400.f);
+	Goal goal(100.f, 100.f, 5000.f, 27400.f);
+	Ennemi ennemi(100.f, 100.f, 1000.f, 27400.f);
 	PlayerMove movement;
 	LevelManager levelManager;
 	levelManager.loadBiome("Game.txt");
@@ -19,10 +30,6 @@ int main()
 	for (const auto& p : levelManager.getPlatforms()) {
 		platforms.push_back(p.getShape());
 	}
-
-	sf::RenderWindow window(sf::VideoMode({ 800, 600 }), "Music Sweet Music");
-	window.setFramerateLimit(60);
-	sf::Clock clock;
 
 	Camera camera(800.f, 600.f);
 	Parallax parallax;
@@ -41,8 +48,21 @@ int main()
 
 		player.updateAnimation(dt);
         movement.update(player, platforms, dt);
+		ennemi.update(dt);
 
         camera.update(player.getPosX(), player.getPosY());
+
+        if (player.rectangle.getGlobalBounds().findIntersection(goal.rectangle.getGlobalBounds()))
+        {
+            std::cout << "Niveau Termine ! Victoire !" << std::endl;
+            window.close();
+        }
+
+        if (player.rectangle.getGlobalBounds().findIntersection(ennemi.rectangle.getGlobalBounds()))
+        {
+            std::cout << "Aie ! Retour au debut !" << std::endl;
+            player.rectangle.setPosition({ 50.f, 26000.f });
+        }
 
         window.clear();
 
@@ -53,10 +73,14 @@ int main()
         window.setView(camera.getView());
         for (const auto& plat : levelManager.getPlatforms())
             window.draw(plat.getShape());
+
+		goal.draw(window);
+		ennemi.draw(window);
         player.draw(window);
 
         window.display();
     }
+	return 0;
 }
 
 

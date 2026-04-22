@@ -9,10 +9,10 @@ public:
     bool         onGround;
     int          jumpCount;
 
-    const float gravity = 10500.f;
-    const float speed = 3000.f;
-    const float jumpForce = -20000.f;
-    const float fallSpeed = 300000000000.f;
+    const float gravity = 2000.f;
+    const float speed = 300.f;
+    const float jumpForce = -1000.f;
+    const float fallSpeed = 30000.f;
     const int   maxJumps = 1;
 
     PlayerMove();
