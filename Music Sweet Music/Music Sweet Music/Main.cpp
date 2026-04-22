@@ -10,7 +10,7 @@
 
 int main()
 {
-    Player player(100.f, 100.f, 200.f, 200.f);
+    Player player(100.f, 100.f, 200.f, 26000.f);
 	PlayerMove movement;
 	LevelManager levelManager;
 	levelManager.loadBiome("Game.txt");

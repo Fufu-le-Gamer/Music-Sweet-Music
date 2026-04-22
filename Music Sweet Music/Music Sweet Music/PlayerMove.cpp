@@ -26,25 +26,30 @@ void PlayerMove::update(Player& p, const std::vector<sf::RectangleShape>& platfo
         sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Z);
 
     velocity.x = 0.f;
+    if (pressingLeft)  velocity.x = -speed;
+    if (pressingRight) velocity.x = speed;
 
-    // Gestion des directions et des animations
-    if (pressingLeft) {
-        velocity.x = -speed;
-        p.setDirection(39); // Met la ligne 2 (exemple pour marche à gauche)
+    if (!onGround)
+    {
+        p.setDirection(29);
     }
-    else if (pressingRight) {
-        velocity.x = speed;
-        p.setDirection(41); // Met la ligne 1 (exemple pour marche à droite)
-    }
-    else {
-        p.setDirection(25); // Met la ligne 0 (repos / idle)
+    else
+    {
+        if (pressingLeft) {
+            p.setDirection(39);
+        }
+        else if (pressingRight) {
+            p.setDirection(41);
+        }
+        else {
+            p.setDirection(25);
+        }
     }
 
     if (pressingJump && onGround)
     {
         velocity.y = jumpForce;
         onGround = false;
-        p.setDirection(29);
     }
 
     // --- Mouvement horizontal ---

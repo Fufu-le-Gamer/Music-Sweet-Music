@@ -4,7 +4,7 @@ Player::Player(float width, float height, float x, float y)
 {
     rectangle.setSize({ width, height });
 
-    if (!texture.loadFromFile("asset/spritsheet.png")) {
+    if (!texture.loadFromFile("asset/spritsheetP.png")) {
         std::cerr << "Erreur de chargement !\n";
     }
 
